@@ -678,7 +678,7 @@
 
   <script>
     document.getElementById('confirmBtn').addEventListener('click', () => document.body.classList.add('modal-open'));
-    document.getElementById('gotit').addEventListener('click', () => document.body.classList.remove('modal-open'));
+    document.getElementById('gotit').addEventListener('click', () => { window.location.href = 'list.html'; });
     document.addEventListener('keydown', e => {
       if (e.key !== 'Escape') return;
       if (document.body.classList.contains('modal-open')) document.body.classList.remove('modal-open');
