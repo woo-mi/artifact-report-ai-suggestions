@@ -562,6 +562,8 @@
     transition: background-color 120ms ease;
   }
   .row:hover { background: #F7F7F7; }
+  a.name-link { text-decoration: none; color: inherit; cursor: pointer; }
+  a.name-link:hover { text-decoration: underline; text-underline-offset: 2px; }
 
   .cell { height: 48px; display: flex; align-items: center; min-width: 0; }
 
@@ -952,7 +954,7 @@
   var MME = 'Metric Movement Explainer', TVR = 'Trivy Vulnerability Remediation';
   // Row spec: [state, info, pattern, avatarKey, dimmedOwner, name, chip, ownerName, date]
   var ROWS = [
-    ['green',   0,  PALL,   'A',    false, MME, 'new',   'Alonzo Canada', 'Just created'],
+    ['green',   0,  PALL,   'A',    false, MME, 'new',   'Alonzo Canada', 'Just created', 'final.html'],
     ['green',   0,  P2,     'S',    false, MME, 'draft', 'Milan Korsos',  'Aug 2026'],
     ['green',   0,  P2,     'S',    false, TVR, null,    'Milan Korsos',  'Aug 2026'],
     ['green',   14, PDIM,   'Jdim', true,  TVR, null,    'Milan Korsos',  'Aug 2026'],
@@ -1010,7 +1012,7 @@
 
   ROWS.forEach(function (r) {
     var state = r[0], info = r[1], pattern = r[2], avKey = r[3], dimmed = r[4];
-    var name = r[5], chip = r[6], owner = r[7], date = r[8];
+    var name = r[5], chip = r[6], owner = r[7], date = r[8], link = r[9];
 
     var dotCls = state === 'green' ? 'green' : state === 'dim' ? 'dim' : state === 'gray' ? 'gray' : 'loading';
     var nameCls = state === 'dim' ? ' dim' : state === 'gray' ? ' gray' : '';
@@ -1018,7 +1020,7 @@
       : chip === 'draft' ? '<div class="draft-pill">Draft</div>' : '';
     var nameCell = '<div class="cell cell-name' + nameCls + '">'
       + '<div class="status-dot ' + dotCls + '"></div>'
-      + '<div class="name-wrap"><div class="name">' + name + '</div>'
+      + '<div class="name-wrap">' + (link ? '<a class="name name-link" href="' + link + '">' + name + '</a>' : '<div class="name">' + name + '</div>')
       + (info ? infoIcon(info) : '') + '</div>'
       + chipHtml
       + (state === 'green' ? HOVER_META : '')
