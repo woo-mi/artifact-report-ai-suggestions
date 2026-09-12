@@ -179,6 +179,21 @@
   .cta.dark:hover { background: #000000; }
   .cta.light { background: #FFFFFF; color: #171717; outline: 1px solid #D4D4D4; }
 
+  /* ---- confirmation overlay + modal (frame "3 confirmation screen - edited") ---- */
+  .overlay { position: fixed; inset: 0; background: #171717AB; z-index: 400; display: none; }
+  .modal { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 401;
+    width: 601px; max-width: calc(100vw - 32px); height: 361px; border-radius: 20px; background: #FFFFFF; display: none; }
+  body.modal-open .overlay, body.modal-open .modal { display: block; }
+  .modal svg { position: absolute; left: 50%; top: 59px; margin-left: -28px; }
+  .modal-title { position: absolute; top: 137px; left: 24px; right: 24px; text-align: center;
+    font-size: 28px; line-height: 28px; font-weight: 500; color: #232323; }
+  .modal-body { position: absolute; top: 177px; left: 50%; transform: translateX(-50%); width: 423px; max-width: calc(100% - 48px);
+    text-align: center; font-size: 17px; line-height: 20px; color: #232323; }
+  .modal-btn { position: absolute; top: 271px; left: 50%; margin-left: -48px; width: 96px; height: 48px;
+    display: flex; align-items: center; justify-content: center; border-radius: 6px; background: #171717;
+    font-family: system-ui, sans-serif; font-size: 15px; line-height: 18px; font-weight: 500; color: #FFFFFF; cursor: pointer; }
+  .modal-btn:hover { background: #000000; }
+
   @media (max-width: 1280px) { .convo { width: 320px; } }
   @media (max-width: 1100px) { .convo { display: none; } }
   @media (max-width: 800px)  { .side  { display: none; } .doc-inner { padding: 32px 24px 80px; } }
@@ -643,14 +658,32 @@
           <path d="M5.25 10.5l3.5-3.5-3.5-3.5" fill="none" stroke="var(--color-text-secondary)" stroke-linecap="round" stroke-linejoin="round" />
         </svg></div>
       <div class="side-ctas">
-        <a class="cta dark" href="confirm.html">Confirm and create agent</a>
+        <span class="cta dark" id="confirmBtn">Confirm and create agent</span>
         <div class="cta light">Save as a draft and run a test</div>
       </div>
     </aside>
   </div>
 
+  <div class="overlay"></div>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mm-title">
+    <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="28" cy="28" r="26" fill="none" stroke="#232323" stroke-width="4" />
+      <rect x="26" y="18" width="5" height="10" rx="2.5" fill="#232323" />
+      <rect x="38" y="18" width="5" height="10" rx="2.5" fill="#232323" />
+    </svg>
+    <div class="modal-title" id="mm-title">Metric Movement Explainer is live</div>
+    <div class="modal-body">It's watching your metrics now. You'll get an explanation in Slack the moment something shifts.</div>
+    <div class="modal-btn" id="gotit">Got it</div>
+  </div>
+
   <script>
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') window.location.href = './'; });
+    document.getElementById('confirmBtn').addEventListener('click', () => document.body.classList.add('modal-open'));
+    document.getElementById('gotit').addEventListener('click', () => document.body.classList.remove('modal-open'));
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      if (document.body.classList.contains('modal-open')) document.body.classList.remove('modal-open');
+      else window.location.href = './';
+    });
   </script>
 </body>
 </html>
